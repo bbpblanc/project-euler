@@ -2,7 +2,7 @@ import itertools
 # answer: 20313839404245
 
 def is_special_sum(b, c):
- #   print(b, " -- ", c)
+#    print(b, " -- ", c)
 #    print(c)
 #    print("")
     
@@ -42,27 +42,27 @@ def generate_sets(lst):
     return back
 
 
-EPSILON = 3
-def generate_candidates(lst):
+
+def generate_candidates(lst, *, epsilon = 0):
     back = [] # [(b, c)]
     seed = lst[len(lst)//2]
     # {2, 3, 4} => {3, 5, 6,7}
     # {a, b, c, d} => {c, c+a +/- epsilon, c+b +/- epsilon, ..., c+d +/- epsilon}
-    for b in range(lst[0]-EPSILON, lst[0]+EPSILON+1):
+    for b in range(lst[0]-epsilon, lst[0]+epsilon+1):
         if seed + b <= seed: 
             #print("ABORT", b, seed)
             continue
         #print("KEEP", b, seed)
-        for c in range(lst[1]-EPSILON, lst[1]+EPSILON+1):
+        for c in range(lst[1]-epsilon, lst[1]+epsilon+1):
             if c <= b: continue
-            for d in range(lst[2]-EPSILON, lst[2]+EPSILON+1):
+            for d in range(lst[2]-epsilon, lst[2]+epsilon+1):
                 if d <= c: continue
-                for e in range(lst[3]-EPSILON, lst[3]+EPSILON+1):
+                for e in range(lst[3]-epsilon, lst[3]+epsilon+1):
                     if e <= d: continue
-                    for f in range(lst[4]-EPSILON, lst[4]+EPSILON+1):
+                    for f in range(lst[4]-epsilon, lst[4]+epsilon+1):
                         if f <= e: continue
                         #back.append((seed, seed + b, seed + c, seed + d, seed + e, seed + f))
-                        for g in range(lst[5]-EPSILON, lst[5]+EPSILON+1):
+                        for g in range(lst[5]-epsilon, lst[5]+epsilon+1):
                             if g <= f: continue
                             back.append((seed, seed + b, seed + c, seed + d, seed + e, seed + f, seed + g))
     
@@ -82,7 +82,8 @@ def renderer(lst):
 lst = [11, 18, 19, 20, 22, 25]
 candidates = []
 
-for candidate in generate_candidates(lst):
+
+for candidate in generate_candidates(lst, epsilon = 2):
     is_special_set = True
     for b_c in generate_sets(candidate):
         #if b_c[0] == (65, 87, 88): print(b_c[0], " -- ", b_c[1])
